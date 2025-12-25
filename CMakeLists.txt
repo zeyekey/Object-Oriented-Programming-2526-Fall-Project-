@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(BookstoreApp LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
-set(SRC
-    src/main.cpp
+set(CORE_SRC
     src/models/Product.cpp
     src/models/Book.cpp
     src/models/Magazine.cpp
@@ -19,4 +18,12 @@ set(SRC
     src/utils/Input.cpp
     src/utils/Formatter.cpp
 )
-add_executable(bookstore ${SRC})
+
+add_library(bookstore_core STATIC ${CORE_SRC})
+target_include_directories(bookstore_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+add_executable(bookstore src/main.cpp)
+target_link_libraries(bookstore PRIVATE bookstore_core)
+
+enable_testing()
+add_subdirectory(tests)

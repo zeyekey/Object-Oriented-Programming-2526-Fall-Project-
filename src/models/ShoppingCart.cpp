@@ -18,3 +18,17 @@ void ShoppingCart::listItems() const {
                                     << " -> $" << util::formatCurrency(it.lineTotal()) << "\n";
     }
 }
+
+bool ShoppingCart::removeByProductId(int productId) {
+    for (auto it = m_items.begin(); it != m_items.end(); ++it) {
+        if (it->product() && it->product()->id() == productId) {
+            m_items.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+
+void ShoppingCart::clear() {
+    m_items.clear();
+}
